@@ -9,12 +9,3 @@ class addNote(forms.Form):
             'placeholder': 'Insert note title here...'
             })
     )
-
-# class addDescription(forms.Form):
-#     description = forms.CharField(
-#         label = '',
-#         widget = Textarea(attrs = {
-#             'rows': 6,
-#             'placeholder': 'Enter description here...',
-#             })
-#     )

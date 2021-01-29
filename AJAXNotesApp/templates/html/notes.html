@@ -1,3 +1,5 @@
+{% extends 'html/home.html' %}
+{% block notes %}
 {% if notes %}
 {% for note in notes %}
 <div class="row">
@@ -13,7 +15,7 @@
 </div>
 <div class="row">
     <div class="col-5 p-1">
-        <form action="{% url 'addNote' note.pk %}" method="POST">
+        <form name="descForm{{note.pk}}" class="descForm" action="{% url 'addNote' note.pk %}" method="POST">
             {% csrf_token %}
             {% if note.description %}
             <textarea onkeydown="pressed(event)" class="form-control mb-2" id="description" name="description" rows="3">{{ note.description }}</textarea>
@@ -22,8 +24,24 @@
             {% endif %}
             <button class="btn btn-primary" type="submit">Update Note</button>
         </form>
+        <script>
+            // AJAX Script For Descriptions
+            var urlVariable = {% url 'addNote' note.pk %}
+            $('.descForm').submit(function(e) {
+                e.preventDefault()
+                $.ajax({
+                    url: urlVariable,
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(serverResponse){
+                        $('.notes').html(serverResponse)
+                    }
+                })
+            })
+        </script>
         <hr />
     </div>
 </div>
 {% endfor %}
 {% endif %}
+{% endblock notes %}

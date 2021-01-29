@@ -15,28 +15,32 @@
         </div>
         <div class="notes">
             <!-- AJAX Stuff Should Appear Here. -->
+            {% block notes %}
+            {% endblock notes %}
         </div>
         <div class="row">
             <div class="col-8">
-                <form action="{% url 'addTitle' %}" method="POST">
+                <form class="titleForm" action="{% url 'addTitle' %}" method="POST">
                     {% csrf_token %}
-                    {{ noteForm.as_p }}
+                    {{ noteForm }}
                     <button class="btn btn-primary" type="submit">Add Note</button>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        // Script to make textarea submit via ENTER key.
-        function pressed(e) {
-            if ( (window.event ? event.keyCode : e.which) == 13) { 
-                document.forms[0].submit()
-            }
-        }
-    </script>
-    <script>
         // AJAX Script
-        
+        $('.titleForm').submit(function(e) {
+            e.preventDefault()
+            $.ajax({
+                url: 'add/title/',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(serverResponse){
+                    $('.notes').html(serverResponse)
+                }
+            })
+        })
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
