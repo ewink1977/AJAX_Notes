@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container p-5">
+        <div class="col-6">
+            <h4>Notes</h4>
+            <hr />
+        </div>
+        {% if notes %}
+        {% for note in notes %}
+        <div class="row">
+            <div class="col-5 p-1">
+                <h2>{{ note.title }}</h2>
+            </div>
+            <div class="col-1 p-1">
+                <form action="{% url 'deleteNote' note.pk %}" method="POST">
+                    <button type="button" class="btn btn-outline-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 p-1">
+                {{ descForm.as_p }}
+                <hr />
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-6">
+                {{ noteForm.as_p }}
+                <form action="{% url 'addTitle' %}" method="POST">
+                    <button class="btn btn-primary" type="submit">Add Note</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
