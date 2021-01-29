@@ -1,0 +1,29 @@
+{% if notes %}
+{% for note in notes %}
+<div class="row">
+    <div class="col-7 p-1">
+        <h2>{{ note.title }}</h2>
+    </div>
+    <div class="col-1 p-1">
+        <form action="{% url 'deleteNote' note.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-5 p-1">
+        <form action="{% url 'addNote' note.pk %}" method="POST">
+            {% csrf_token %}
+            {% if note.description %}
+            <textarea onkeydown="pressed(event)" class="form-control mb-2" id="description" name="description" rows="3">{{ note.description }}</textarea>
+            {% else %}
+            <textarea onkeydown="pressed(event)" class="form-control mb-2" id="description" name="description" rows="3" placeholder="Enter description here..."></textarea>
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Update Note</button>
+        </form>
+        <hr />
+    </div>
+</div>
+{% endfor %}
+{% endif %}
